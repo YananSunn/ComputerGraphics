@@ -27,7 +27,7 @@ int main()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "LearnOpenGL", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "C1", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
 	// Set the required callback functions
@@ -46,14 +46,25 @@ int main()
 
 	// Build and compile our shader program
 	Shader ourShader("main.vert.glsl", "main.frag.glsl");
+	//Shader ourShader2("main2.vert.glsl", "main2.frag.glsl");
 
 
 	// Set up vertex data (and buffer(s)) and attribute pointers
 	GLfloat vertices[] = {
 		// Positions         // Colors
-		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // Bottom Right
-		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // Bottom Left
-		0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f   // Top 
+		0.1f, -0.4f, 0.0f, 1.0f, 0.0f, 0.0f,  // Bottom Right
+		-0.8f, -0.3f, 0.0f, 0.0f, 1.0f, 0.0f,  // Bottom Left
+		-0.4f, 0.3f, 0.0f, 0.0f, 0.0f, 1.0f,   // Top 
+
+		0.8f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom right
+		0.2f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // bottom left
+		0.8f, -0.1f, 0.0f, 0.0f, 0.0f, 1.0f,   // top right
+		0.2f, -0.1f, 0.0f, 0.5f, 0.5f, 0.5f,   // top left
+
+		0.8f, 0.1f, 0.0f, 1.0f, 1.0f, 0.0f,  // bottom right
+		0.2f, 0.1f, 0.0f, 0.0f, 1.0f, 1.0f,  // bottom left
+		0.8f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f,   // top right
+		0.2f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f,   // top left
 	};
 	GLuint VBO, VAO;
 	glGenVertexArrays(1, &VAO);
@@ -89,7 +100,14 @@ int main()
 		ourShader.Use();
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLE_STRIP, 3, 4);
+		glDrawArrays(GL_TRIANGLE_STRIP, 7, 4);
 		glBindVertexArray(0);
+
+		//ourShader2.Use();
+		//glBindVertexArray(VAO);
+		//glDrawArrays(GL_TRIANGLE_STRIP, 7, 4);
+		//glBindVertexArray(0);
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
