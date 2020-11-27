@@ -6,6 +6,11 @@
 // GLFW
 #include <GLFW/glfw3.h>
 
+// GLM Mathematics
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 // Other includes
 #include "Shader.h"
 
@@ -46,7 +51,8 @@ int main()
 
 	// Build and compile our shader program
 	Shader ourShader("main.vert.glsl", "main.frag.glsl");
-	//Shader ourShader2("main2.vert.glsl", "main2.frag.glsl");
+	Shader ourShader2("main.vert2.glsl", "main.frag2.glsl");
+	Shader ourShader3("main.vert3.glsl", "main.frag3.glsl");
 
 
 	// Set up vertex data (and buffer(s)) and attribute pointers
@@ -96,19 +102,80 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		// Create transformations
+		glm::mat4 model(1);
+		glm::mat4 view(1);
+		glm::mat4 projection(1);
+
+		view = glm::translate(view, glm::vec3(-0.7f, 0.3f, -3.0f));
+		model = glm::rotate(model, (GLfloat)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+		// Note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
+		projection = glm::perspective(glm::radians(45.0f), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+		// Get their uniform location
+		GLint modelLoc = glGetUniformLocation(ourShader.Program, "model");
+		GLint viewLoc = glGetUniformLocation(ourShader.Program, "view");
+		GLint projLoc = glGetUniformLocation(ourShader.Program, "projection");
+		// Pass them to the shaders
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
 		// Draw the triangle
 		ourShader.Use();
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
-		glDrawArrays(GL_TRIANGLE_STRIP, 3, 4);
-		glDrawArrays(GL_TRIANGLE_STRIP, 7, 4);
 		glBindVertexArray(0);
 
-		//ourShader2.Use();
-		//glBindVertexArray(VAO);
-		//glDrawArrays(GL_TRIANGLE_STRIP, 7, 4);
-		//glBindVertexArray(0);
+		// Create transformations
+		glm::mat4 model2(1);
+		glm::mat4 view2(1);
+		glm::mat4 projection2(1);
 
+		view2 = glm::translate(view2, glm::vec3(0.5f, -0.5f, -3.0f));
+		model2 = glm::rotate(model2, (GLfloat)glfwGetTime() * glm::radians(-50.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		
+		// Note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
+		projection2 = glm::perspective(glm::radians(45.0f), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+		// Get their uniform location
+		GLint modelLoc2 = glGetUniformLocation(ourShader2.Program, "model2");
+		GLint viewLoc2 = glGetUniformLocation(ourShader2.Program, "view2");
+		GLint projLoc2 = glGetUniformLocation(ourShader2.Program, "projection2");
+		// Pass them to the shaders
+		glUniformMatrix4fv(modelLoc2, 1, GL_FALSE, glm::value_ptr(model2));
+		glUniformMatrix4fv(viewLoc2, 1, GL_FALSE, glm::value_ptr(view2));
+		glUniformMatrix4fv(projLoc2, 1, GL_FALSE, glm::value_ptr(projection2));
+
+		ourShader2.Use();
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLE_STRIP, 3, 4);
+		glBindVertexArray(0);
+
+
+		// Create transformations
+		glm::mat4 model3(1);
+		glm::mat4 view3(1);
+		glm::mat4 projection3(1);
+
+		view3 = glm::translate(view3, glm::vec3(-0.5f, -0.3f, -3.0f));
+		model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * glm::radians(80.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+		// Note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
+		projection3 = glm::perspective(glm::radians(45.0f), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+		// Get their uniform location
+		GLint modelLoc3 = glGetUniformLocation(ourShader3.Program, "model3");
+		GLint viewLoc3 = glGetUniformLocation(ourShader3.Program, "view3");
+		GLint projLoc3 = glGetUniformLocation(ourShader3.Program, "projection3");
+		// Pass them to the shaders
+		glUniformMatrix4fv(modelLoc3, 1, GL_FALSE, glm::value_ptr(model3));
+		glUniformMatrix4fv(viewLoc3, 1, GL_FALSE, glm::value_ptr(view3));
+		glUniformMatrix4fv(projLoc3, 1, GL_FALSE, glm::value_ptr(projection3));
+
+		ourShader3.Use();
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLE_STRIP, 7, 4);
+		glBindVertexArray(0);
+		
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
 	}

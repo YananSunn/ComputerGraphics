@@ -1,5 +1,5 @@
 #version 330 core
-in vec3 ourColor2;
+flat in vec3 ourColor2;
 
 out vec4 color2;
 
