@@ -122,6 +122,21 @@ public:
 	Color GetTexture(Vector3 crash_C);
 };
 
+class Cube : public Primitive {
+protected:
+	Vector3 O, Dx, Dy;
+	double x, y, z;
+
+public:
+	Cube() : Primitive() {}
+	~Cube() {}
+
+	void Input(std::string, std::stringstream&);
+	CollidePrimitive Collide(Vector3 ray_O, Vector3 ray_V);
+	Color GetTexture(Vector3 crash_C);
+};
+
+
 class PlaneAreaLightPrimitive : public Square{
 public:
 	PlaneAreaLightPrimitive(Vector3 pO, Vector3 pDx, Vector3 pDy, Color color): Square()

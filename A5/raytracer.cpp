@@ -135,6 +135,7 @@ void Raytracer::CreateAll()
 			if ( type == "plane" ) new_primitive = new Plane;
 			if ( type == "square" ) new_primitive = new Square;
 			if ( type == "cylinder" ) new_primitive = new Cylinder;
+			if ( type == "cube" ) new_primitive = new Cube;
 			if ( type == "bezier" ) new_primitive = new Bezier;
 			if ( new_primitive != NULL ) {
 				new_primitive->SetNext( primitive_head );
